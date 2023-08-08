@@ -61,6 +61,12 @@ export const useGestures = ({
     translate.y,
   ]);
 
+  const tap = Gesture.Tap()
+  .numberOfTaps(2)
+  .onStart(() => {
+    reset()
+  });
+
   const onInteractionStarted = () => {
     if (!isInteracting.current) {
       isInteracting.current = true;
@@ -70,7 +76,7 @@ export const useGestures = ({
 
   const onInteractionEnded = () => {
     if (isInteracting.current && !isPinching.current && !isPanning.current) {
-      reset();
+      // reset();
       isInteracting.current = false;
       onInteractionEnd?.();
     }
@@ -143,7 +149,7 @@ export const useGestures = ({
     ],
   }));
 
-  const gestures = Gesture.Simultaneous(pinchGesture, panGesture);
+  const gestures = Gesture.Simultaneous(pinchGesture, panGesture, tap);
 
   return { gestures, animatedStyle };
 };
